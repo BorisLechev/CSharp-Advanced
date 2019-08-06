@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CreateCustomDataStructures</name>
+    </assembly>
+    <members>
+        <member name="T:CreateCustomDataStructures.CustomList">
+            <summary>
+            Custom class
+            </summary>
+        </member>
+        <member name="F:CreateCustomDataStructures.CustomList.defaultSize">
+            <summary>
+            Default size of internal array
+            </summary>
+        </member>
+        <member name="F:CreateCustomDataStructures.CustomList.innerArr">
+            <summary>
+            Internal array
+            </summary>
+        </member>
+        <member name="P:CreateCustomDataStructures.CustomList.Count">
+            <summary>
+            Number of elements in the list
+            </summary>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.#ctor">
+            <summary>
+            Creates custom integer list with default size
+            </summary>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.#ctor(System.Int32)">
+            <summary>
+            Creates custom integer list with default size
+            </summary>
+            <param name="initialSize">Initial size of the list</param>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.Add(System.Int32)">
+            <summary>
+            Add element in the list
+            </summary>
+            <param name="element"></param>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.AddRange(System.Int32[])">
+            <summary>
+            AddRange method
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.RemoveAt(System.Int32)">
+            <summary>
+            Removes element at position
+            </summary>
+            <param name="index">position</param>
+            <exception cref="T:System.IndexOutOfRangeException">The position is out of range</exception>
+        </member>
+        <member name="M:CreateCustomDataStructures.CustomList.Grow(System.Int32)">
+            <summary>
+            Grow the size of the list twice
+            </summary>
+        </member>
+    </members>
+</doc>
