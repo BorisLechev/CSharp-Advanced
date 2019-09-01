@@ -1,0 +1,6 @@
+https://fluentassertions.com/introduction
+https://reqtest.com/testing-blog/test-case-design-techniques/
+https://www.automatetheplanet.com/nunit-cheat-sheet/
+https://softuni.bg/downloads/svn/qa-automation/January-2019/01.%20Test-Automation-Intro-and-Nunit-Basics/NUnit-Unit-Testing-Framework-Cheat-Sheet.pdf
+https://www.tutorialspoint.com/design_pattern/design_pattern_overview.htm
+https://softuni.bg/forum/754/useful-info-csharp-basics-syzdavane-na-code-snippets-vyv-visual-studio
