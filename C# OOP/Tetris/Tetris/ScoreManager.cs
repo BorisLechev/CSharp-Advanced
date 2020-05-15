@@ -12,9 +12,32 @@
         public ScoreManager(string hignScoreFile)
         {
             this.hignScoreFile = hignScoreFile;
+            this.HighScore = this.GetHignScore();
         }
 
-        public int GetHignScore()
+        public int Score { get; private set; }
+
+        public int HighScore { get; private set; }
+
+        public void AddToScore(int addToScore)
+        {
+            this.Score += addToScore;
+
+            if (this.HighScore < this.Score)
+            {
+                this.HighScore = this.Score;
+            }
+        }
+
+        public void AddToHighScore()
+        {
+            File.AppendAllLines(this.hignScoreFile, new List<string>
+            {
+                $"[{DateTime.Now.ToString()}] {Environment.UserName} => {this.Score}"
+            });
+        }
+
+        private int GetHignScore()
         {
             var hignScore = 0;
 
@@ -31,14 +54,6 @@
             }
 
             return hignScore;
-        }
-
-        public void Add(int score)
-        {
-            File.AppendAllLines(this.hignScoreFile, new List<string>
-            {
-                $"[{DateTime.Now.ToString()}] {Environment.UserName} => {score}"
-            });
         }
     }
 }
