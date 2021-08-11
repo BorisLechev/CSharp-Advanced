@@ -3,137 +3,144 @@
 // Test ONLY the Stage class. 
 namespace FestivalManager.Tests
 {
+    using FestivalManager.Entities;
     using NUnit.Framework;
     using System;
     using System.Linq;
 
     [TestFixture]
-    public class StageTests
+	public class StageTests
     {
-        [Test]
-        public void Constructor_Should_Set_Correctly()
-        {
-            var stage = new Stage();
+		private Stage stage;
 
-            Assert.IsNotNull(stage.Performers);
-            Assert.That(stage.Performers.Count, Is.EqualTo(0));
+        [SetUp]
+        public void Setup()
+        {
+            this.stage = new Stage();
         }
 
         [Test]
-        public void Add_Performer_Should_Add_Correctly()
+		public void Constructor_Should_Initialize_Correctly()
         {
-            var stage = new Stage();
-
-            stage.AddPerformer(new Performer("Ivan", "Ivanov", 20));
-            stage.AddPerformer(new Performer("Ivan1", "Ivanov2", 20));
-
-            Assert.That(stage.Performers.Count, Is.EqualTo(2));
-            Assert.That(stage.Performers.Any(p => p.FullName == "Ivan Ivanov"), Is.EqualTo(true));
+			Assert.IsNotNull(this.stage.Performers);
+			Assert.AreEqual(0, this.stage.Performers.Count);
         }
 
-        [Test]
-        public void Add_Performer_Should_Throw_An_Exception_If_The_Performer_Is_Null()
+		[Test]
+		public void AddPerformer_Should_Add_Correctly()
         {
-            var stage = new Stage();
+			var performer = new Performer("Petar", "Petrov", 22);
 
-            Assert.Throws<ArgumentNullException>(() => stage.AddPerformer(null));
+			this.stage.AddPerformer(performer);
+
+			Assert.That(this.stage.Performers.Count, Is.EqualTo(1));
+			Assert.IsTrue(this.stage.Performers.Any(p => p.FullName == "Petar Petrov"));
         }
 
-        [Test]
-        public void Add_Performer_Should_Throw_An_Exception_If_The_Performer_Is_Under_18()
+		[Test]
+		public void AddPerformer_Should_Throw_An_Error_If_The_Performer_Is_Under_18()
         {
-            var stage = new Stage();
+			var performer = new Performer("Petar", "Petrov", 15);
 
-            Assert.Throws<ArgumentException>(() => stage.AddPerformer(new Performer("Ivan", "Ivanov", 12)));
-        }
+			Assert.Throws<ArgumentException>(() =>
+			{
+				this.stage.AddPerformer(performer);
+			});
+		}
 
-        [Test]
-        public void Add_Song_Should_Throw_An_Exception_If_The_Song_Is_Null()
-        {
-            var stage = new Stage();
+		[Test]
+		public void AddPerformer_Should_Throw_An_Error_If_The_Performer_Is_NULL()
+		{
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				this.stage.AddPerformer(null);
+			});
+		}
 
-            Assert.Throws<ArgumentNullException>(() => stage.AddSong(null));
-        }
+		[Test]
+		public void AddSong_Should_Throw_An_Error_If_The_Duration_Is_Under_1_Minute()
+		{
+			var song = new Song("ZZZ", new TimeSpan(0, 0, 15));
 
-        [Test]
-        public void Add_Song_Should_Throw_An_Exception_If_The_Song_Duration_Is_Under_1_Minute()
-        {
-            var stage = new Stage();
+			Assert.Throws<ArgumentException>(() =>
+			{
+				this.stage.AddSong(song);
+			});
+		}
 
-            var song = new Song("Smth", new TimeSpan(0, 0, 30));
+		[Test]
+		public void AddSong_Should_Throw_An_Error_If_The_Song_Is_NULL()
+		{
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				this.stage.AddSong(null);
+			});
+		}
 
-            Assert.Throws<ArgumentException>(() => stage.AddSong(song));
-        }
+		[Test]
+		public void AddSongToPerformer_Should_Throw_An_Error_If_The_Song_Name_Is_NULL()
+		{
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				this.stage.AddSongToPerformer(null, "ZZZ");
+			});
+		}
 
-        [Test]
-        public void Add_Song_Should_Be_Add_Successfully()
-        {
-            var stage = new Stage();
+		[Test]
+		public void AddSongToPerformer_Should_Throw_An_Error_If_The_Performer_Name_Is_NULL()
+		{
+			Assert.Throws<ArgumentNullException>(() =>
+			{
+				this.stage.AddSongToPerformer("ZZZ", null);
+			});
+		}
 
-            var song = new Song("Smth", new TimeSpan(0, 3, 25));
+		[Test]
+		public void AddSongToPerformer_Should_Throw_An_Error_If_The_Performer_Is_Not_Existing()
+		{
+			Assert.Throws<ArgumentException>(() =>
+			{
+				this.stage.AddSongToPerformer("ZZZ", "Pesho");
+			});
+		}
 
-            stage.AddSong(song);
-        }
+		[Test]
+		public void AddSongToPerformer_Should_Throw_An_Error_If_The_Song_Is_Not_Existing()
+		{
+			this.stage.AddPerformer(new Performer("Pesho", "Peshiv", 20));
 
-        [Test]
-        public void Add_Song_To_Performer_Should_Throw_An_Exception_If_The_Song_Is_Null()
-        {
-            var stage = new Stage();
+			Assert.Throws<ArgumentException>(() =>
+			{
+				this.stage.AddSongToPerformer("YYY", "Pesho Peshev");
+			});
+		}
 
-            Assert.Throws<ArgumentNullException>(() => stage.AddSongToPerformer(null, "a"));
-        }
+		[Test]
+		public void AddSongToPerformer_Should_Be_Add_Successfully()
+		{
+			var song = new Song("Gradil Iliya Kiliya", new TimeSpan(0, 3, 31));
+			var performer = new Performer("Ivan", "Dyakov", 43);
 
-        [Test]
-        public void Add_Song_To_Performer_Should_Throw_An_Exception_If_The_Performer_Is_Null()
-        {
-            var stage = new Stage();
+			this.stage.AddSong(song);
+			this.stage.AddPerformer(performer);
 
-            Assert.Throws<ArgumentNullException>(() => stage.AddSongToPerformer("a", null));
-        }
+			this.stage.AddSongToPerformer(song.Name, performer.FullName);
+		}
 
-        [Test]
-        public void Add_Song_To_Performer_Should_Throw_An_Exception_If_The_Performer_Is_Not_Existing()
-        {
-            var stage = new Stage();
+		[Test]
+		public void Play_Should_Return_Correct_Result()
+		{
+			var song = new Song("Gradil Iliya Kiliya", new TimeSpan(0, 3, 31));
+			var performer = new Performer("Ivan", "Dyakov", 43);
 
-            Assert.Throws<ArgumentException>(() => stage.AddSongToPerformer("a", "Ivan4o"));
-        }
+			this.stage.AddSong(song);
+			this.stage.AddPerformer(performer);
 
-        [Test]
-        public void Add_Song_To_Performer_Should_Throw_An_Exception_If_The_Song_Is_Not_Existing()
-        {
-            var stage = new Stage();
+			this.stage.AddSongToPerformer(song.Name, performer.FullName);
 
-            stage.AddPerformer(new Performer("Ri", "a", 20));
+			var result = this.stage.Play();
 
-            Assert.Throws<ArgumentException>(() => stage.AddSongToPerformer("Frog", "Ri a"));
-        }
-
-        [Test]
-        public void Add_Song_To_Performer_Should_Be_Add_Successfully()
-        {
-            var stage = new Stage();
-
-            stage.AddSong(new Song("A", new TimeSpan(0, 3, 21)));
-            stage.AddPerformer(new Performer("Ivan", "Ivanov", 30));
-
-            stage.AddSongToPerformer("A", "Ivan Ivanov");
-
-
-        }
-
-        [Test]
-        public void Play_Should_Return_Correct_Result()
-        {
-            var stage = new Stage();
-
-            stage.AddSong(new Song("A", new TimeSpan(0, 3, 24)));
-            stage.AddPerformer(new Performer("Ivan", "Ivanov", 30));
-            stage.AddSongToPerformer("A", "Ivan Ivanov");
-
-            var result = stage.Play();
-
-            Assert.That(result, Is.EqualTo($"1 performers played 1 songs"));
-        }
-    }
+			Assert.That(result, Is.EqualTo($"1 performers played 1 songs"));
+		}
+	}
 }
