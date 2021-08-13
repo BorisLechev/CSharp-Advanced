@@ -26,7 +26,7 @@ namespace _02.Bee
 
             while ((command = Console.ReadLine()) != "End")
             {
-                KeepingPreviousPositions(currentBeeRow, currentBeeCol, out prevBeeRow, out prevBeeCol);
+                KeepingPreviousPositions(currentBeeRow, currentBeeCol, ref prevBeeRow, ref prevBeeCol);
                 MovingTheBee(ref currentBeeRow, ref currentBeeCol, command);
 
                 isOut = ValidateBeePosition(matrix, currentBeeRow, currentBeeCol, isOut);
@@ -47,7 +47,7 @@ namespace _02.Bee
                 }
                 else if (matrix[currentBeeRow, currentBeeCol] == 'O')
                 {
-                    KeepingPreviousPositions(currentBeeRow, currentBeeCol, out prevBeeRow, out prevBeeCol);
+                    KeepingPreviousPositions(currentBeeRow, currentBeeCol, ref prevBeeRow, ref prevBeeCol);
                     MovingTheBee(ref currentBeeRow, ref currentBeeCol, command);
 
                     isOut = ValidateBeePosition(matrix, currentBeeRow, currentBeeCol, isOut);
@@ -118,7 +118,7 @@ namespace _02.Bee
             }
         }
 
-        private static void KeepingPreviousPositions(int currentBeeRow, int currentBeeCol, out int prevBeeRow, out int prevBeeCol)
+        private static void KeepingPreviousPositions(int currentBeeRow, int currentBeeCol, ref int prevBeeRow, ref int prevBeeCol)
         {
             prevBeeRow = currentBeeRow;
             prevBeeCol = currentBeeCol;
